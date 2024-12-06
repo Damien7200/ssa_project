@@ -314,7 +314,7 @@ def vote_on_join_request(request, group_id, request_id, vote):
 @login_required
 def edit_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
-    if comment.user != request.user:  # Ensure only the comment author can edit
+    if comment.user != request.user:  # Ensure only the comment author can edit 
         return redirect('chipin:group_detail', group_id=comment.group.id)
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)

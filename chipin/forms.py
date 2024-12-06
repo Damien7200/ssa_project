@@ -17,6 +17,7 @@ class GroupCreationForm(forms.ModelForm):
             group.save()
             group.members.add(self.user)  # Add the admin to the members list
         return group
+    
 from .models import Comment
 
 class CommentForm(forms.ModelForm):
