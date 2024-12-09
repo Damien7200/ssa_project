@@ -66,9 +66,15 @@ def user_view(request):
 
 def user(request):
     profile = request.user.profile
+    #date = request.POST.get('date')
+    transactions = Transaction.objects.all().filter(user=request.user).order_by('-created_at')
+    
+    
+   
     return render(request, 'users/user.html', {
         'user': request.user,
-        'balance': profile.balance
+        'balance': profile.balance,
+        'transactions': transactions
     })
 def top_up(request):
     profile = request.user.profile
@@ -79,7 +85,8 @@ def top_up(request):
             amount = form.cleaned_data['amount']
             profile.balance += amount #add valid transaction money to account
             profile.save()
-            Transaction.objects.create(user=request.user, amount=amount) # transaction record
+            Transaction.objects.create(user=request.user, amount=amount, reason="Top-up", type='+') # transaction record
+            
             messages.success(request, f"Your balance has been topped up by ${amount}.")
             return redirect('users:user') # redirect to user page
         
@@ -91,3 +98,4 @@ def top_up(request):
         'welcome_message': f"Welcome back, {request.user.first_name}!",
     }
     return render(request, 'users/top_up.html', context)
+

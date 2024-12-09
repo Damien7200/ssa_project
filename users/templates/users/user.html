@@ -9,6 +9,32 @@
     <a href="{% url 'chipin:home' %}">Click through to ChipIn Functions</a>
     <br>
     <a href="{% url 'users:top_up' %}">Top Up Balance</a>
+    <h3>Transactions</h3>
+    <div style = "display:inline-block">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Reason</th>
+            </tr>
+            {% for transaction in transactions %}
+            <tr>
+            
+                <td>{{transaction.created_at}}</td>
+                {% comment %} colorcoding transactions depending on type {% endcomment %}
+                {%if transaction.type == "+"%}
+                    <td style="color:green;">{{transaction.type}}${{transaction.amount}}</td>
+                {%else%}
+                    <td style="color:red;">{{transaction.type}}${{transaction.amount}}</td>
+                {%endif%}
+                <td>{{transaction.reason}}</td>
+
+
+            </tr>
+            
+            {%endfor%}
+        </table>
+    </div>
     {% comment %} <a href="{% url 'users:top_up' user.id %}">Make a Payment</a> {% endcomment %}
     {% comment %} <input type="number" step="0.01" min="0.01"> {% endcomment %}
 {% endblock %}
